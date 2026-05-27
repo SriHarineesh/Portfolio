@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sri Harineesh Pitaka — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --bg:#0a0a0f;
+    --bg2:#12121a;
+    --bg3:#1a1a26;
+    --card:#15151f;
+    --accent:#7c6dfa;
+    --accent2:#a78bfa;
+    --accent3:#34d399;
+    --text:#f0eeff;
+    --muted:#8b85a8;
+    --border:rgba(124,109,250,0.2);
+    --serif:'DM Serif Display',serif;
+    --sans:'DM Sans',sans-serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);overflow-x:hidden;line-height:1.7}
+
+  /* noise overlay */
+  body::before{
+    content:'';position:fixed;inset:0;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events:none;z-index:1000;opacity:0.5
+  }
+
+  /* nav */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    padding:1.25rem 3rem;
+    display:flex;justify-content:space-between;align-items:center;
+    backdrop-filter:blur(20px);
+    background:rgba(10,10,15,0.8);
+    border-bottom:1px solid var(--border);
+  }
+  .nav-logo{
+    font-family:var(--mono);font-size:0.85rem;color:var(--accent2);
+    letter-spacing:0.05em;
+  }
+  .nav-links{display:flex;gap:2rem;list-style:none}
+  .nav-links a{
+    color:var(--muted);text-decoration:none;font-size:0.85rem;
+    font-weight:500;letter-spacing:0.04em;text-transform:uppercase;
+    transition:color 0.2s;
+  }
+  .nav-links a:hover{color:var(--text)}
+
+  /* hero */
+  .hero{
+    min-height:100vh;display:flex;align-items:center;
+    padding:8rem 3rem 4rem;position:relative;overflow:hidden;
+  }
+  .hero-grid{
+    position:absolute;inset:0;
+    background-image:
+      linear-gradient(rgba(124,109,250,0.04) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(124,109,250,0.04) 1px,transparent 1px);
+    background-size:60px 60px;
+    mask-image:radial-gradient(ellipse 80% 60% at 50% 50%, black 20%, transparent 100%);
+  }
+  .hero-glow{
+    position:absolute;top:-200px;right:-200px;
+    width:600px;height:600px;border-radius:50%;
+    background:radial-gradient(circle,rgba(124,109,250,0.12) 0%,transparent 70%);
+    pointer-events:none;
+  }
+  .hero-glow2{
+    position:absolute;bottom:-100px;left:-100px;
+    width:400px;height:400px;border-radius:50%;
+    background:radial-gradient(circle,rgba(52,211,153,0.07) 0%,transparent 70%);
+    pointer-events:none;
+  }
+  .hero-content{max-width:900px;position:relative;z-index:2}
+  .hero-eyebrow{
+    font-family:var(--mono);font-size:0.8rem;color:var(--accent3);
+    letter-spacing:0.12em;text-transform:uppercase;margin-bottom:1.5rem;
+    display:flex;align-items:center;gap:0.75rem;
+  }
+  .hero-eyebrow::before{content:'';width:40px;height:1px;background:var(--accent3)}
+  .hero-name{
+    font-family:var(--serif);font-size:clamp(3.5rem,8vw,7rem);
+    line-height:1.0;color:var(--text);margin-bottom:0.5rem;
+    letter-spacing:-0.02em;
+  }
+  .hero-name em{color:var(--accent2);font-style:italic}
+  .hero-title{
+    font-family:var(--mono);font-size:1.1rem;color:var(--muted);
+    margin-bottom:2rem;letter-spacing:0.02em;
+  }
+  .hero-title span{color:var(--accent);margin:0 0.5rem}
+  .hero-desc{
+    max-width:560px;font-size:1.05rem;color:var(--muted);
+    line-height:1.8;margin-bottom:3rem;
+  }
+  .hero-cta{display:flex;gap:1rem;flex-wrap:wrap}
+  .btn{
+    padding:0.85rem 2rem;border-radius:6px;font-size:0.9rem;
+    font-weight:500;cursor:pointer;text-decoration:none;
+    transition:all 0.2s;display:inline-flex;align-items:center;gap:0.5rem;
+    font-family:var(--sans);
+  }
+  .btn-primary{
+    background:var(--accent);color:#fff;border:none;
+  }
+  .btn-primary:hover{background:var(--accent2);transform:translateY(-2px)}
+  .btn-outline{
+    background:transparent;color:var(--text);
+    border:1px solid var(--border);
+  }
+  .btn-outline:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
+  .hero-scroll{
+    position:absolute;bottom:2.5rem;left:3rem;
+    font-family:var(--mono);font-size:0.75rem;color:var(--muted);
+    display:flex;align-items:center;gap:0.5rem;letter-spacing:0.08em;
+  }
+  .hero-scroll::after{content:'';width:1px;height:60px;background:var(--border);display:block}
+
+  /* sections */
+  section{padding:6rem 3rem;position:relative}
+  .section-label{
+    font-family:var(--mono);font-size:0.75rem;color:var(--accent);
+    letter-spacing:0.15em;text-transform:uppercase;
+    margin-bottom:0.75rem;display:flex;align-items:center;gap:0.75rem;
+  }
+  .section-label::before{content:'';width:30px;height:1px;background:var(--accent)}
+  .section-title{
+    font-family:var(--serif);font-size:clamp(2rem,4vw,3rem);
+    color:var(--text);margin-bottom:3rem;letter-spacing:-0.02em;
+  }
+
+  /* about */
+  .about-grid{
+    display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start
+  }
+  .about-text p{color:var(--muted);line-height:1.9;margin-bottom:1.25rem;font-size:1.02rem}
+  .about-text p strong{color:var(--text)}
+  .stat-grid{
+    display:grid;grid-template-columns:1fr 1fr;gap:1rem
+  }
+  .stat-card{
+    background:var(--card);border:1px solid var(--border);border-radius:10px;
+    padding:1.5rem;
+  }
+  .stat-num{
+    font-family:var(--serif);font-size:2.5rem;color:var(--accent2);
+    line-height:1;margin-bottom:0.4rem;
+  }
+  .stat-label{font-size:0.82rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em}
+
+  /* skills */
+  .skills-section{background:var(--bg2)}
+  .skills-grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:1.5rem
+  }
+  .skill-group{
+    background:var(--card);border:1px solid var(--border);
+    border-radius:12px;padding:1.75rem;
+    transition:border-color 0.3s;
+  }
+  .skill-group:hover{border-color:var(--accent)}
+  .skill-group-title{
+    font-family:var(--mono);font-size:0.78rem;color:var(--accent3);
+    letter-spacing:0.1em;text-transform:uppercase;margin-bottom:1.25rem;
+  }
+  .skill-tags{display:flex;flex-wrap:wrap;gap:0.5rem}
+  .skill-tag{
+    background:rgba(124,109,250,0.1);color:var(--accent2);
+    border:1px solid rgba(124,109,250,0.25);
+    border-radius:4px;padding:0.35rem 0.75rem;
+    font-family:var(--mono);font-size:0.78rem;
+  }
+  .skill-tag.green{background:rgba(52,211,153,0.1);color:var(--accent3);border-color:rgba(52,211,153,0.25)}
+
+  /* experience */
+  .timeline{position:relative;padding-left:2rem}
+  .timeline::before{
+    content:'';position:absolute;left:0;top:0;bottom:0;
+    width:1px;background:linear-gradient(to bottom,var(--accent),transparent);
+  }
+  .timeline-item{
+    position:relative;margin-bottom:3rem;padding-left:2rem;
+  }
+  .timeline-dot{
+    position:absolute;left:-2.4rem;top:0.35rem;
+    width:10px;height:10px;border-radius:50%;
+    background:var(--accent);border:2px solid var(--bg);
+    box-shadow:0 0 12px var(--accent);
+  }
+  .timeline-meta{
+    font-family:var(--mono);font-size:0.78rem;color:var(--accent);
+    margin-bottom:0.35rem;letter-spacing:0.06em;
+  }
+  .timeline-role{
+    font-family:var(--serif);font-size:1.4rem;color:var(--text);
+    margin-bottom:0.25rem;
+  }
+  .timeline-org{color:var(--muted);font-size:0.92rem;margin-bottom:1rem}
+  .timeline-list{list-style:none;padding:0}
+  .timeline-list li{
+    color:var(--muted);font-size:0.95rem;line-height:1.7;
+    margin-bottom:0.5rem;padding-left:1.2rem;position:relative;
+  }
+  .timeline-list li::before{
+    content:'▸';position:absolute;left:0;color:var(--accent3);font-size:0.8rem
+  }
+
+  /* projects */
+  .projects-grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:1.5rem;
+  }
+  .project-card{
+    background:var(--card);border:1px solid var(--border);
+    border-radius:12px;padding:2rem;
+    transition:all 0.3s;position:relative;overflow:hidden;
+  }
+  .project-card::before{
+    content:'';position:absolute;top:0;left:0;right:0;
+    height:2px;background:linear-gradient(to right,var(--accent),var(--accent3));
+    transform:scaleX(0);transform-origin:left;transition:transform 0.3s;
+  }
+  .project-card:hover{transform:translateY(-4px);border-color:var(--accent)}
+  .project-card:hover::before{transform:scaleX(1)}
+  .project-num{
+    font-family:var(--mono);font-size:0.75rem;color:var(--accent);
+    margin-bottom:1rem;opacity:0.6;
+  }
+  .project-title{
+    font-family:var(--serif);font-size:1.3rem;color:var(--text);
+    margin-bottom:0.75rem;
+  }
+  .project-desc{color:var(--muted);font-size:0.92rem;line-height:1.7;margin-bottom:1.25rem}
+  .project-tech{display:flex;flex-wrap:wrap;gap:0.4rem}
+  .tech-tag{
+    background:rgba(255,255,255,0.05);color:var(--muted);
+    border-radius:4px;padding:0.25rem 0.6rem;
+    font-family:var(--mono);font-size:0.72rem;
+    border:1px solid rgba(255,255,255,0.08);
+  }
+
+  /* education */
+  .edu-section{background:var(--bg2)}
+  .edu-cards{display:flex;flex-direction:column;gap:1.25rem}
+  .edu-card{
+    background:var(--card);border:1px solid var(--border);
+    border-radius:12px;padding:1.75rem 2rem;
+    display:flex;justify-content:space-between;align-items:center;
+    transition:border-color 0.3s;
+  }
+  .edu-card:hover{border-color:var(--accent)}
+  .edu-degree{font-family:var(--serif);font-size:1.2rem;color:var(--text);margin-bottom:0.3rem}
+  .edu-school{color:var(--muted);font-size:0.9rem}
+  .edu-year{
+    font-family:var(--mono);font-size:0.8rem;color:var(--accent);
+    white-space:nowrap;padding:0.4rem 1rem;
+    border:1px solid var(--border);border-radius:20px;
+  }
+
+  /* contact */
+  .contact-section{text-align:center;padding:8rem 3rem}
+  .contact-section .section-label{justify-content:center}
+  .contact-section .section-label::before{display:none}
+  .contact-title{
+    font-family:var(--serif);font-size:clamp(2.5rem,6vw,5rem);
+    color:var(--text);margin-bottom:1.5rem;letter-spacing:-0.02em;
+    line-height:1.1;
+  }
+  .contact-title em{color:var(--accent2);font-style:italic}
+  .contact-desc{color:var(--muted);font-size:1.05rem;max-width:480px;margin:0 auto 3rem}
+  .contact-links{
+    display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap;margin-bottom:3rem
+  }
+  .contact-link{
+    display:flex;align-items:center;gap:0.5rem;color:var(--muted);
+    text-decoration:none;font-size:0.9rem;font-family:var(--mono);
+    transition:color 0.2s;padding:0.6rem 1.25rem;
+    border:1px solid var(--border);border-radius:6px;
+  }
+  .contact-link:hover{color:var(--accent2);border-color:var(--accent)}
+  .contact-link svg{width:16px;height:16px}
+
+  /* footer */
+  footer{
+    text-align:center;padding:2rem;
+    border-top:1px solid var(--border);
+    font-family:var(--mono);font-size:0.78rem;color:var(--muted);
+  }
+
+  /* animations */
+  @keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes pulse{0%,100%{opacity:0.6}50%{opacity:1}}
+  .hero-content>*{animation:fadeUp 0.8s ease both}
+  .hero-content>*:nth-child(1){animation-delay:0.1s}
+  .hero-content>*:nth-child(2){animation-delay:0.2s}
+  .hero-content>*:nth-child(3){animation-delay:0.3s}
+  .hero-content>*:nth-child(4){animation-delay:0.4s}
+  .hero-content>*:nth-child(5){animation-delay:0.5s}
+  .blink{animation:pulse 2s ease infinite}
+
+  @media(max-width:768px){
+    nav{padding:1rem 1.5rem}
+    .nav-links{display:none}
+    section{padding:4rem 1.5rem}
+    .hero{padding:7rem 1.5rem 4rem}
+    .about-grid{grid-template-columns:1fr}
+    .edu-card{flex-direction:column;align-items:flex-start;gap:1rem}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">PSH.dev</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Available for internships</div>
+    <h1 class="hero-name">Sri <em>Harineesh</em><br>Pitaka</h1>
+    <div class="hero-title">
+      Computer Science Student <span>//</span> ML & Data Analytics <span>//</span> Full-Stack Dev <span>//</span> 
+    </div>
+    <p class="hero-desc">
+      Passionate about building intelligent systems and data-driven applications. 
+      Currently pursuing B.Tech at Sir CR Reddy College of Engineering, Eluru.
+    </p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn btn-primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16,18 22,12 16,6"/><polyline points="8,6 2,12 8,18"/></svg>
+        View Projects
+      </a>
+      <a href="mailto:sritechupdates.9@gmail.com" class="btn btn-outline">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Get In Touch
+      </a>
+    </div>
+  </div>
+  <div class="hero-scroll">scroll</div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label">Introduction</div>
+  <h2 class="section-title">About Me</h2>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>I'm a <strong>Computer Science Engineering student</strong> at Sir CR Reddy College of Engineering, Eluru, with a passion for solving real-world problems through code.</p>
+      <p>My interests lie at the intersection of <strong>Machine Learning, Data Analytics</strong>, and full-stack web development. I enjoy turning raw data into insights and building systems that scale.</p>
+      <p>As a <strong>Team Lead at Smart India Hackathon 2025</strong>, I demonstrated my ability to coordinate development activities, define strategies, and deliver functional solutions under pressure.</p>
+      <p>I'm actively seeking an internship where I can apply my technical skills to innovative, research-driven challenges and grow as an engineer.</p>
+    </div>
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-num">4+</div>
+        <div class="stat-label">Languages</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">SIH</div>
+        <div class="stat-label">2025 Team Lead</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">ML</div>
+        <div class="stat-label">& Data Analytics</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">B.Tech</div>
+        <div class="stat-label">CSE, 2024–Present</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" class="skills-section">
+  <div class="section-label">Technical Expertise</div>
+  <h2 class="section-title">Skills</h2>
+  <div class="skills-grid">
+    <div class="skill-group">
+      <div class="skill-group-title">Programming Languages</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Python</span>
+        <span class="skill-tag">Java</span>
+        <span class="skill-tag">C++</span>
+        <span class="skill-tag">C</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">Web Development</div>
+      <div class="skill-tags">
+        <span class="skill-tag green">HTML</span>
+        <span class="skill-tag green">CSS</span>
+        <span class="skill-tag green">Bootstrap</span>
+        <span class="skill-tag green">Full-Stack</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">Data & AI/ML</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Machine Learning</span>
+        <span class="skill-tag">Data Analysis</span>
+        <span class="skill-tag">Data Visualization</span>
+        <span class="skill-tag">Algorithms</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">Tools & Databases</div>
+      <div class="skill-tags">
+        <span class="skill-tag green">MySQL</span>
+        <span class="skill-tag green">Git</span>
+        <span class="skill-tag green">GitHub</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">Soft Skills</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Communication</span>
+        <span class="skill-tag">Teamwork</span>
+        <span class="skill-tag">Problem Solving</span>
+        <span class="skill-tag">Leadership</span>
+        <span class="skill-tag">Time Management</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-label">Work History</div>
+  <h2 class="section-title">Experience</h2>
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-meta">2025 — National Level</div>
+      <div class="timeline-role">Team Lead</div>
+      <div class="timeline-org">Smart India Hackathon (SIH) 2025</div>
+      <ul class="timeline-list">
+        <li>Led a team in a national-level hackathon, coordinating development activities and defining problem-solving strategies</li>
+        <li>Delegated tasks among team members and guided collaborative discussions toward innovative technical solutions</li>
+        <li>Successfully delivered a functional solution in a competitive national-level environment</li>
+        <li>Strengthened leadership, project execution, and collaboration efficiency</li>
+      </ul>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-meta">2024 — Present</div>
+      <div class="timeline-role">Project Contributor</div>
+      <div class="timeline-org">Sir CR Reddy College of Engineering</div>
+      <ul class="timeline-list">
+        <li>Developed a full-stack web application using HTML, CSS, and MySQL with backend data handling</li>
+        <li>Performed data cleaning, processing, and visualization using Python</li>
+        <li>Implemented and compared algorithms for performance evaluation, analyzing time and space complexity</li>
+        <li>Improved algorithm efficiency through comparative performance analysis</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-label">Portfolio</div>
+  <h2 class="section-title">Projects</h2>
+  <div class="projects-grid">
+    <div class="project-card">
+      <div class="project-num">01</div>
+      <div class="project-title">Full-Stack Web Application</div>
+      <div class="project-desc">A complete web application with frontend UI, backend data handling, and user interaction features, built during academic coursework at Sir CR Reddy College.</div>
+      <div class="project-tech">
+        <span class="tech-tag">HTML</span>
+        <span class="tech-tag">CSS</span>
+        <span class="tech-tag">MySQL</span>
+        <span class="tech-tag">Python</span>
+      </div>
+    </div>
+    <div class="project-card">
+      <div class="project-num">02</div>
+      <div class="project-title">Algorithm Performance Analyzer</div>
+      <div class="project-desc">Implemented and benchmarked multiple algorithms, analyzing and comparing time and space complexity to optimize performance across different scenarios.</div>
+      <div class="project-tech">
+        <span class="tech-tag">Python</span>
+        <span class="tech-tag">Data Structures</span>
+        <span class="tech-tag">Algorithms</span>
+        <span class="tech-tag">Analysis</span>
+      </div>
+    </div>
+    <div class="project-card">
+      <div class="project-num">03</div>
+      <div class="project-title">Data Analysis & Visualization</div>
+      <div class="project-desc">End-to-end data analysis pipeline including data cleaning, processing, and visualization — translating raw datasets into actionable insights using Python.</div>
+      <div class="project-tech">
+        <span class="tech-tag">Python</span>
+        <span class="tech-tag">Data Visualization</span>
+        <span class="tech-tag">Data Cleaning</span>
+        <span class="tech-tag">Analytics</span>
+      </div>
+    </div>
+    <div class="project-card">
+      <div class="project-num">04</div>
+      <div class="project-title">SIH 2025 — Hackathon Solution</div>
+      <div class="project-desc">Led a national-level hackathon team to design and build an innovative technical solution addressing a real-world challenge, delivered under tight competitive conditions.</div>
+      <div class="project-tech">
+        <span class="tech-tag">Team Lead</span>
+        <span class="tech-tag">Problem Solving</span>
+        <span class="tech-tag">National Level</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education" class="edu-section">
+  <div class="section-label">Academic Background</div>
+  <h2 class="section-title">Education</h2>
+  <div class="edu-cards">
+    <div class="edu-card">
+      <div>
+        <div class="edu-degree">B.Tech — Computer Science Engineering</div>
+        <div class="edu-school">Sir CR Reddy College of Engineering, Eluru</div>
+      </div>
+      <div class="edu-year">2024 – Present</div>
+    </div>
+    <div class="edu-card">
+      <div>
+        <div class="edu-degree">Intermediate — MPC (Math, Physics, Chemistry)</div>
+        <div class="edu-school">Sri Chaitanya Junior College</div>
+      </div>
+      <div class="edu-year">2024</div>
+    </div>
+    <div class="edu-card">
+      <div>
+        <div class="edu-degree">SSC — Class X</div>
+        <div class="edu-school">Sri Chaitanya Techno School</div>
+      </div>
+      <div class="edu-year">2022</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="contact-section">
+  <div class="section-label">Let's Connect</div>
+  <h2 class="contact-title">Got a project<br>in <em>mind?</em></h2>
+  <p class="contact-desc">I'm actively seeking internship opportunities in ML, Data Analytics, and Full-Stack Development. Let's build something great together.</p>
+  <div class="contact-links">
+    <a href="mailto:sritechupdates.9@gmail.com" class="contact-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      sritechupdates.9@gmail.com
+    </a>
+    <a href="tel:7989083558" class="contact-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6A16 16 0 0 0 15.4 16.1l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      +91 79890 83558
+    </a>
+    <a href="https://www.linkedin.com/in/sri-harineesh-pitaka-a2a312343" target="_blank" class="contact-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+      LinkedIn
+    </a>
+    <a href="https://github.com/SriHarineesh" target="_blank" class="contact-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+      GitHub
+    </a>
+  </div>
+  <a href="mailto:sritechupdates.9@gmail.com" class="btn btn-primary" style="font-size:1rem;padding:1rem 2.5rem">
+    Send a Message →
+  </a>
+</section>
+
+<footer>
+  <p>Built with ❤️ by Sri Harineesh Pitaka &nbsp;·&nbsp; Eluru, Andhra Pradesh, India &nbsp;·&nbsp; 2025</p>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if(e.isIntersecting){
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, {threshold: 0.1});
+
+  document.querySelectorAll('.skill-group, .project-card, .edu-card, .timeline-item, .stat-card').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(24px)';
+    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
